@@ -671,7 +671,7 @@ if ! is_apt_installed nomachine && [[ ! -f /usr/NX/bin/nxplayer ]]; then
     if $DRY_RUN; then
         info "[dry-run] Would install NoMachine"
     else
-        NOMACHINE_URL="https://download.nomachine.com/download/8.16/Linux/nomachine_8.16.1_1_amd64.deb"
+        NOMACHINE_URL="https://download.nomachine.com/download/8.20/Linux/nomachine_8.20.1_1_amd64.deb"
         wget -qO /tmp/nomachine.deb "$NOMACHINE_URL" 2>/dev/null
         if [[ -s /tmp/nomachine.deb ]]; then
             sudo dpkg -i /tmp/nomachine.deb 2>/dev/null || sudo apt --fix-broken install -y
