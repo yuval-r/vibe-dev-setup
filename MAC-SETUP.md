@@ -28,7 +28,6 @@ chmod +x mac-setup.sh
 | **SSH (Remote Login)** | Enables terminal access to your Mac | Script enables it automatically via System Settings |
 | **Prevent Sleep** | Keeps Mac awake on AC power | Display sleeps after 10min, but Mac stays on for remote access |
 | **Tailscale** | Encrypted mesh VPN between your devices | Sign in with same account on both machines |
-| **RustDesk** | Open-source GUI remote desktop | Share your RustDesk ID with your Linux machine |
 | **NoMachine** | High-performance GUI remote desktop | Connect via Tailscale IP from Linux |
 
 ### 🤖 AI Tools
@@ -55,6 +54,8 @@ Same set as the Linux machine for consistent workflow:
 | **gh** | `gh pr create` — GitHub CLI |
 | **lazygit** | `lazygit` — terminal git UI |
 | **lazydocker** | `lazydocker` — terminal Docker UI |
+| **uv** | `uv pip install` — fast Python package manager |
+| **Wave Terminal** | Modern terminal with AI capabilities |
 
 ## Connecting Linux → Mac
 
@@ -104,7 +105,7 @@ scp mac:~/project/file.txt .
 rsync -avz mac:~/projects/myapp/ ./myapp/
 
 # GUI access:
-# Open RustDesk or NoMachine on Linux, connect to Mac's Tailscale IP
+# Open NoMachine on Linux, connect to Mac's Tailscale IP
 ```
 
 ## Ollama on M3 Ultra (96GB)
@@ -193,8 +194,7 @@ The script may trigger macOS permission dialogs for:
 
 - **Remote Login:** Needs admin password
 - **Tailscale:** Network extension permission
-- **RustDesk:** Screen Recording + Accessibility permissions (System Settings → Privacy & Security)
-- **NoMachine:** Screen Recording + Accessibility permissions
+- **NoMachine:** Screen Recording + Accessibility permissions (System Settings → Privacy & Security)
 
 Grant these when prompted — they're required for remote access to work.
 

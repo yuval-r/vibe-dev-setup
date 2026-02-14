@@ -45,7 +45,7 @@ See [MAC-SETUP.md](MAC-SETUP.md) for full Mac documentation including Ollama rem
 | `--minimal` | AI tools + languages only (skip tuning, remote, CLI extras) |
 | `--skip-git` | Skip git name/email prompt |
 | `--skip-remote` | Skip all remote access tools |
-| `--skip-gui-remote` | Keep Tailscale+SSH but skip RustDesk & NoMachine |
+| `--skip-gui-remote` | Keep Tailscale+SSH but skip NoMachine |
 | `--help` | Show help |
 
 ## What Gets Installed
@@ -59,6 +59,7 @@ See [MAC-SETUP.md](MAC-SETUP.md) for full Mac documentation including Ollama rem
 | **Ollama** | Run AI models locally (no cloud needed) | `ollama pull qwen2.5-coder:32b` (64GB RAM handles large models) |
 | **Google Antigravity** | Agent-first AI IDE (VS Code fork by Google) | Launch from app menu → sign in with Google |
 | **Warp Terminal** | Modern AI-powered terminal | Launch from app menu |
+| **Wave Terminal** | Open-source modern terminal with AI | Launch from app menu |
 
 ### 🛠 Languages & Dev Tools
 
@@ -69,6 +70,7 @@ See [MAC-SETUP.md](MAC-SETUP.md) for full Mac documentation including Ollama rem
 | **Rust** | Installed via rustup | `rustc --version`, `cargo new my-project` |
 | **Docker + Compose** | Containerization | `docker run hello-world` (log out & back in first) |
 | **VS Code** | Code editor | `code .` to open current folder |
+| **uv** | Fast Python package manager & project tool | `uv pip install`, `uv run` |
 | **pipx** | Install Python CLI tools in isolated envs | `pipx install black` |
 
 ### ⌨ CLI Power Tools
@@ -92,7 +94,6 @@ This setup installs three layers of remote access so you can connect from your H
 |------|------|-------------|-------|
 | **Tailscale** | VPN / Network layer | Creates encrypted mesh network between your devices. No port forwarding needed. | Install on both machines, run `sudo tailscale up` on each |
 | **SSH** | Terminal access | Secure command-line access to your Mac | Edit `~/.ssh/config` with your Mac's Tailscale IP |
-| **RustDesk** | GUI remote desktop | Open-source, encrypted P2P desktop sharing | Install on both machines, exchange ID |
 | **NoMachine** | GUI remote desktop | Fastest remote desktop (NX protocol) | Install on both machines, connect via Tailscale IP |
 
 #### How to connect to your Mac from Pop!_OS:
@@ -132,20 +133,17 @@ ssh mac
 
 > **Mac prerequisite:** Enable Remote Login in System Settings → General → Sharing → Remote Login
 
-**Step 3b: GUI access (RustDesk or NoMachine)**
+**Step 3b: GUI access (NoMachine)**
 
-For **RustDesk**: Install on Mac from [rustdesk.com](https://rustdesk.com), note the ID shown. On Pop!_OS, open RustDesk, enter the Mac's ID.
-
-For **NoMachine**: Install on Mac from [nomachine.com](https://nomachine.com). On Pop!_OS, open NoMachine, add your Mac's Tailscale IP (100.64.x.x).
+Install NoMachine on Mac from [nomachine.com](https://nomachine.com) (or via `mac-setup.sh`). On Pop!_OS, open NoMachine, add your Mac's Tailscale IP (100.64.x.x).
 
 #### When to use what:
 
 | Scenario | Best tool |
 |----------|-----------|
 | Run a command on Mac, access files | SSH (`ssh mac`) |
-| Quick look at Mac desktop | RustDesk |
-| Heavy GUI work (Xcode, design tools) | NoMachine (fastest) |
-| File transfer | `scp`, `rsync` over Tailscale, or RustDesk built-in |
+| GUI access to Mac desktop | NoMachine (fastest remote desktop) |
+| File transfer | `scp`, `rsync` over Tailscale |
 
 ### 🔒 System Security
 
@@ -175,6 +173,8 @@ For **NoMachine**: Install on Mac from [nomachine.com](https://nomachine.com). O
 | **GNOME Tweaks** | Fine-tune fonts, themes, window behavior | Open from app menu |
 | **Flameshot** | Advanced screenshot tool | `flameshot gui` or set a keyboard shortcut |
 | **Slack** | Team communication | Launch from app menu |
+| **Telegram** | Messaging | Launch from app menu |
+| **WhatsApp** | Messaging | Launch from app menu |
 | **OpenVPN** | VPN client | Settings → Network → VPN → Import .ovpn file |
 | **Auto-Tiling** | Built into Pop!_OS | `Super + Y` to toggle (already available, no install needed) |
 
