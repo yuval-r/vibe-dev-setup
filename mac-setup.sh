@@ -141,11 +141,14 @@ header "2/8 — Enable Remote Login (SSH)"
 if ! $DRY_RUN; then
     # Check if Remote Login is enabled (launchctl doesn't need Full Disk Access)
     if ! sudo launchctl print system/com.openssh.sshd &>/dev/null; then
-        sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist 2>/dev/null \
-            || sudo systemsetup -setremotelogin on 2>/dev/null \
-            || warn "Could not enable Remote Login — enable manually: System Settings → General → Sharing → Remote Login"
-        log "Remote Login (SSH) enabled"
-        info "Your Linux machine can now SSH into this Mac"
+        if sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist &>/dev/null; then
+            log "Remote Login (SSH) enabled via launchctl"
+        elif sudo systemsetup -setremotelogin on &>/dev/null; then
+            log "Remote Login (SSH) enabled via systemsetup"
+        else
+            warn "Could not enable Remote Login automatically (needs Full Disk Access)"
+            info "Enable manually: System Settings → General → Sharing → Remote Login"
+        fi
     else
         log "Remote Login (SSH) already enabled"
     fi
