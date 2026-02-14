@@ -33,9 +33,10 @@ NC='\033[0m'
 
 LOG_FILE="$HOME/.mac-dev-setup.log"
 ERRORS=()
+WARNINGS=()
 
 log()    { echo -e "${GREEN}[✓]${NC} $1" | tee -a "$LOG_FILE"; }
-warn()   { echo -e "${YELLOW}[!]${NC} $1" | tee -a "$LOG_FILE"; }
+warn()   { echo -e "${YELLOW}[!]${NC} $1" | tee -a "$LOG_FILE"; WARNINGS+=("$1"); }
 error()  { echo -e "${RED}[✗]${NC} $1" | tee -a "$LOG_FILE"; ERRORS+=("$1"); }
 info()   { echo -e "${BLUE}[i]${NC} $1" | tee -a "$LOG_FILE"; }
 header() { echo -e "\n${CYAN}━━━ $1 ━━━${NC}" | tee -a "$LOG_FILE"; }
@@ -412,8 +413,16 @@ echo -e "${BOLD}⌨  CLI Tools:${NC}"
 echo "  bat, ripgrep, fd, fzf, direnv, lazygit, lazydocker, gh"
 echo ""
 
+if [[ ${#WARNINGS[@]} -gt 0 ]]; then
+    echo -e "${YELLOW}⚠  Warnings during setup (${#WARNINGS[@]}):${NC}"
+    for w in "${WARNINGS[@]}"; do
+        echo -e "  ${YELLOW}• $w${NC}"
+    done
+    echo ""
+fi
+
 if [[ ${#ERRORS[@]} -gt 0 ]]; then
-    echo -e "${RED}⚠  Errors:${NC}"
+    echo -e "${RED}⚠  Errors during setup (${#ERRORS[@]}):${NC}"
     for err in "${ERRORS[@]}"; do
         echo -e "  ${RED}• $err${NC}"
     done

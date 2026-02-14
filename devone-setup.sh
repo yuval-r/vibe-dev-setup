@@ -38,9 +38,10 @@ NC='\033[0m'
 
 LOG_FILE="$HOME/.vibe-dev-setup.log"
 ERRORS=()
+WARNINGS=()
 
 log()    { echo -e "${GREEN}[✓]${NC} $1" | tee -a "$LOG_FILE"; }
-warn()   { echo -e "${YELLOW}[!]${NC} $1" | tee -a "$LOG_FILE"; }
+warn()   { echo -e "${YELLOW}[!]${NC} $1" | tee -a "$LOG_FILE"; WARNINGS+=("$1"); }
 error()  { echo -e "${RED}[✗]${NC} $1" | tee -a "$LOG_FILE"; ERRORS+=("$1"); }
 info()   { echo -e "${BLUE}[i]${NC} $1" | tee -a "$LOG_FILE"; }
 header() { echo -e "\n${CYAN}━━━ $1 ━━━${NC}" | tee -a "$LOG_FILE"; }
@@ -885,15 +886,15 @@ else
 fi
 
 # WhatsApp
-if ! is_installed whatsapp-for-linux && ! snap list whatsapp-for-linux &>/dev/null; then
+if ! snap list whatsapp-linux-app &>/dev/null 2>&1 && ! is_installed whatsapp-for-linux; then
     if $DRY_RUN; then
         info "[dry-run] Would install WhatsApp"
     else
         if is_installed snap; then
-            sudo snap install whatsapp-for-linux
-            log "WhatsApp installed (via snap)"
+            sudo snap install whatsapp-linux-app 2>/dev/null && log "WhatsApp installed (via snap)" \
+                || warn "WhatsApp snap not found — use https://web.whatsapp.com or install manually"
         else
-            warn "WhatsApp requires snap — install manually or run: sudo apt install snapd"
+            warn "WhatsApp requires snap — use https://web.whatsapp.com or install snapd first"
         fi
     fi
 else
@@ -969,8 +970,16 @@ echo "  UFW firewall, TLP power mgmt, Timeshift, Flameshot, GNOME Tweaks"
 echo ""
 fi
 
+if [[ ${#WARNINGS[@]} -gt 0 ]]; then
+    echo -e "${YELLOW}⚠  Warnings during setup (${#WARNINGS[@]}):${NC}"
+    for w in "${WARNINGS[@]}"; do
+        echo -e "  ${YELLOW}• $w${NC}"
+    done
+    echo ""
+fi
+
 if [[ ${#ERRORS[@]} -gt 0 ]]; then
-    echo -e "${RED}⚠  Errors during setup:${NC}"
+    echo -e "${RED}⚠  Errors during setup (${#ERRORS[@]}):${NC}"
     for err in "${ERRORS[@]}"; do
         echo -e "  ${RED}• $err${NC}"
     done
