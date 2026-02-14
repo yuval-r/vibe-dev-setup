@@ -4,7 +4,7 @@
 # ║  Mac Studio Companion Setup                                     ║
 # ║  Pairs with the HP Dev One (Pop!_OS) vibe coding setup         ║
 # ║                                                                 ║
-# ║  Installs: Tailscale, RustDesk, NoMachine, Homebrew,           ║
+# ║  Installs: Tailscale, NoMachine, Homebrew,                     ║
 # ║            Ollama, Claude Code, Gemini CLI, dev tools           ║
 # ║                                                                 ║
 # ║  Safe to re-run (idempotent). MIT License.                     ║
@@ -190,22 +190,10 @@ fi # end !SKIP_REMOTE
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_REMOTE; then
 
-header "4/8 — RustDesk"
-
-if ! is_cask_installed rustdesk; then
-    if ! $DRY_RUN; then
-        brew install --cask rustdesk
-        log "RustDesk installed"
-        info "Open RustDesk to see your ID (share with Linux machine)"
-    fi
-else
-    log "RustDesk already installed"
-fi
-
 fi # end !SKIP_REMOTE
 
 # ══════════════════════════════════════════════════════════════════
-# 5. NOMACHINE
+# 4. NOMACHINE
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_REMOTE; then
 
@@ -403,7 +391,7 @@ echo ""
 
 if ! $SKIP_REMOTE; then
 echo -e "${BOLD}🌐 Remote Access:${NC}"
-echo "  Tailscale, RustDesk, NoMachine, SSH (Remote Login enabled)"
+echo "  Tailscale, NoMachine, SSH (Remote Login enabled)"
 echo ""
 fi
 

@@ -6,7 +6,7 @@
 # ║  AI Tools: Claude Code, Gemini CLI, Warp, Antigravity, Ollama ║
 # ║  Dev:      Python, Rust, Docker, Node.js, VS Code             ║
 # ║  Shell:    Zsh + Oh-My-Zsh + plugins                          ║
-# ║  Remote:   Tailscale, RustDesk, NoMachine, SSH                ║
+# ║  Remote:   Tailscale, NoMachine, SSH                          ║
 # ║  CLI:      lazygit, lazydocker, bat, ripgrep, fd, fzf, gh     ║
 # ║  System:   TLP, UFW, Timeshift, firmware updates              ║
 # ║                                                                 ║
@@ -19,8 +19,8 @@
 #
 # Options:
 #   --skip-git        Skip git config prompt
-#   --skip-remote     Skip remote access tools (Tailscale, RustDesk, NoMachine)
-#   --skip-gui-remote Skip GUI remote tools (RustDesk, NoMachine) but keep Tailscale+SSH
+#   --skip-remote     Skip remote access tools (Tailscale, NoMachine)
+#   --skip-gui-remote Skip GUI remote tools (NoMachine) but keep Tailscale+SSH
 #   --minimal         Only install AI tools + languages (skip system tuning, remote, CLI extras)
 #   --dry-run         Show what would be installed without installing
 #   --help            Show this help message
@@ -618,7 +618,7 @@ fi
 fi # end !MINIMAL
 
 # ══════════════════════════════════════════════════════════════════
-# 13. REMOTE ACCESS (Tailscale, RustDesk, NoMachine)
+# 13. REMOTE ACCESS (Tailscale, NoMachine)
 # ══════════════════════════════════════════════════════════════════
 if ! $MINIMAL && ! $SKIP_REMOTE; then
 
@@ -646,25 +646,6 @@ else
 fi
 
 if ! $SKIP_GUI_REMOTE; then
-
-# RustDesk
-if ! is_installed rustdesk; then
-    if $DRY_RUN; then
-        info "[dry-run] Would install RustDesk"
-    else
-        RUSTDESK_VERSION=$(curl -s "https://api.github.com/repos/rustdesk/rustdesk/releases/latest" | jq -r '.tag_name' | sed 's/v//')
-        if [[ -n "$RUSTDESK_VERSION" && "$RUSTDESK_VERSION" != "null" ]]; then
-            wget -qO /tmp/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/latest/download/rustdesk-${RUSTDESK_VERSION}-x86_64.deb"
-            sudo apt install -y /tmp/rustdesk.deb 2>/dev/null || sudo apt --fix-broken install -y
-            rm -f /tmp/rustdesk.deb
-            log "RustDesk installed"
-        else
-            warn "Could not fetch RustDesk — install manually from rustdesk.com"
-        fi
-    fi
-else
-    log "RustDesk already installed"
-fi
 
 # NoMachine
 if ! is_apt_installed nomachine && [[ ! -f /usr/NX/bin/nxplayer ]]; then
@@ -737,8 +718,6 @@ else
         sudo ufw default allow outgoing
         sudo ufw allow ssh
         sudo ufw allow in on tailscale0 2>/dev/null || true
-        sudo ufw allow 21115:21119/tcp 2>/dev/null || true
-        sudo ufw allow 21116/udp 2>/dev/null || true
         sudo ufw allow 4000/tcp 2>/dev/null || true
         sudo ufw --force enable
         log "UFW firewall enabled"
@@ -968,7 +947,7 @@ if ! $SKIP_REMOTE; then
 echo -e "${BOLD}🌐 Remote Access:${NC}"
 echo "  Tailscale (VPN), SSH"
 if ! $SKIP_GUI_REMOTE; then
-echo "  RustDesk (GUI), NoMachine (GUI)"
+echo "  NoMachine (GUI remote desktop)"
 fi
 echo ""
 fi
