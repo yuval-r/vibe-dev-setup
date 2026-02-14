@@ -7,14 +7,14 @@ One-command setup script to transform your HP Dev One into an AI-powered vibe co
 ### One-Line Install (works on both machines)
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/master/install.sh)
 ```
 
 It auto-detects your OS — runs `devone-setup.sh` on Linux, `mac-setup.sh` on macOS.
 
 Preview first without installing:
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/main/install.sh) --dry-run
+bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/master/install.sh) --dry-run
 ```
 
 ### Or clone and run manually

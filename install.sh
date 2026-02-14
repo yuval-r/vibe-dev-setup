@@ -6,17 +6,17 @@
 #
 # Usage (run directly from GitHub):
 #
-#   bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/main/install.sh)
+#   bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/master/install.sh)
 #
 # With options:
 #
-#   bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/main/install.sh) --dry-run
+#   bash <(curl -fsSL https://raw.githubusercontent.com/yuval-r/vibe-dev-setup/master/install.sh) --dry-run
 #
 
 set -euo pipefail
 
 REPO="yuval-r/vibe-dev-setup"
-BRANCH="main"
+BRANCH="master"
 BASE_URL="https://raw.githubusercontent.com/${REPO}/${BRANCH}"
 
 RED='\033[0;31m'
