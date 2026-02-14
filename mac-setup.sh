@@ -106,7 +106,7 @@ run() {
 # ══════════════════════════════════════════════════════════════════
 # 1. HOMEBREW
 # ══════════════════════════════════════════════════════════════════
-header "1/8 — Homebrew"
+header "1/7 — Homebrew"
 
 if ! is_installed brew; then
     if ! $DRY_RUN; then
@@ -136,7 +136,7 @@ fi
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_REMOTE; then
 
-header "2/8 — Enable Remote Login (SSH)"
+header "2/7 — Enable Remote Login (SSH)"
 
 if ! $DRY_RUN; then
     # Check if Remote Login is enabled (launchctl doesn't need Full Disk Access)
@@ -171,7 +171,7 @@ fi # end !SKIP_REMOTE
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_REMOTE; then
 
-header "3/8 — Tailscale"
+header "3/7 — Tailscale"
 
 if ! is_cask_installed tailscale && ! is_installed tailscale; then
     if ! $DRY_RUN; then
@@ -186,18 +186,11 @@ fi
 fi # end !SKIP_REMOTE
 
 # ══════════════════════════════════════════════════════════════════
-# 4. RUSTDESK
-# ══════════════════════════════════════════════════════════════════
-if ! $SKIP_REMOTE; then
-
-fi # end !SKIP_REMOTE
-
-# ══════════════════════════════════════════════════════════════════
 # 4. NOMACHINE
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_REMOTE; then
 
-header "5/8 — NoMachine"
+header "4/7 — NoMachine"
 
 if ! is_cask_installed nomachine && [[ ! -d "/Applications/NoMachine.app" ]]; then
     if ! $DRY_RUN; then
@@ -216,7 +209,7 @@ fi # end !SKIP_REMOTE
 # ══════════════════════════════════════════════════════════════════
 if ! $SKIP_AI; then
 
-header "6/8 — Node.js + AI CLI Tools"
+header "5/7 — Node.js + AI CLI Tools"
 
 # Node.js
 if ! is_installed node || [[ $(node -v 2>/dev/null | sed 's/v//' | cut -d. -f1) -lt 18 ]]; then
@@ -261,7 +254,7 @@ fi # end !SKIP_AI
 # ══════════════════════════════════════════════════════════════════
 # 7. OLLAMA + DEV ESSENTIALS
 # ══════════════════════════════════════════════════════════════════
-header "7/8 — Ollama + Dev Essentials"
+header "6/7 — Ollama + Dev Essentials"
 
 # Ollama
 if ! is_installed ollama; then
@@ -350,7 +343,7 @@ fi
 # ══════════════════════════════════════════════════════════════════
 # 8. SSH KEY + MACOS SETTINGS
 # ══════════════════════════════════════════════════════════════════
-header "8/8 — SSH Key + macOS Settings"
+header "7/7 — SSH Key + macOS Settings"
 
 # SSH key
 if [[ ! -f "$HOME/.ssh/id_ed25519" ]]; then
@@ -385,7 +378,7 @@ fi
 # ══════════════════════════════════════════════════════════════════
 # 8. UPDATE ALL
 # ══════════════════════════════════════════════════════════════════
-header "8/8 — Update All Packages"
+header "Update All Packages"
 
 if ! $DRY_RUN; then
     brew upgrade 2>/dev/null || true
