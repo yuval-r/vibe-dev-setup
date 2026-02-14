@@ -1,6 +1,6 @@
-# 🚀 Vibe Coding Dev Setup — HP Dev One (Pop!_OS / Ubuntu)
+# 🚀 Vibe Coding Dev Setup — HP Dev One + Mac Studio
 
-One-command setup script to transform your HP Dev One into an AI-powered vibe coding machine with remote access to your other machines.
+One-command setup script to transform your HP Dev One (Pop!_OS / Ubuntu) and Mac Studio into an AI-powered vibe coding setup with seamless remote access between them.
 
 ## Quick Start
 
@@ -39,6 +39,8 @@ See [MAC-SETUP.md](MAC-SETUP.md) for full Mac documentation including Ollama rem
 
 ## Options
 
+**Linux (`devone-setup.sh`):**
+
 | Flag | What it does |
 |------|-------------|
 | `--dry-run` | Preview everything without installing |
@@ -46,6 +48,15 @@ See [MAC-SETUP.md](MAC-SETUP.md) for full Mac documentation including Ollama rem
 | `--skip-git` | Skip git name/email prompt |
 | `--skip-remote` | Skip all remote access tools |
 | `--skip-gui-remote` | Keep Tailscale+SSH but skip NoMachine |
+| `--help` | Show help |
+
+**Mac (`mac-setup.sh`):**
+
+| Flag | What it does |
+|------|-------------|
+| `--dry-run` | Preview without installing |
+| `--skip-remote` | Skip remote access tools |
+| `--skip-ai` | Skip AI CLI tools (Claude Code, Gemini CLI) |
 | `--help` | Show help |
 
 ## What Gets Installed
@@ -221,13 +232,7 @@ sudo timeshift --create         # First system snapshot
 - Pop!_OS 22.04 LTS (HP Dev One)
 - Pop!_OS 24.04
 - Ubuntu 22.04 / 24.04
-
-## Requirements
-
-- 64-bit AMD/Intel processor
-- 8GB+ RAM (16GB recommended)
-- Internet connection
-- ~5GB free disk space
+- macOS Sequoia 15.7.3 (Apple Silicon)
 
 ## Troubleshooting
 

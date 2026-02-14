@@ -200,9 +200,7 @@ Grant these when prompted — they're required for remote access to work.
 
 ## Tested On
 
-- macOS Sonoma 14.x (Apple Silicon)
-- macOS Sequoia 15.x (Apple Silicon)
-- Mac Studio M3 Ultra
+- macOS Sequoia 15.7.3 (Mac Studio M3 Ultra)
 
 ## License
 
