@@ -325,6 +325,22 @@ else
     log "Slack already installed"
 fi
 
+# Telegram
+if ! is_cask_installed telegram; then
+    run brew install --cask telegram
+    log "Telegram installed"
+else
+    log "Telegram already installed"
+fi
+
+# WhatsApp
+if ! is_cask_installed whatsapp; then
+    run brew install --cask whatsapp
+    log "WhatsApp installed"
+else
+    log "WhatsApp already installed"
+fi
+
 # direnv hook
 if [[ -f "$HOME/.zshrc" ]] && ! grep -q "direnv hook" "$HOME/.zshrc"; then
     echo 'eval "$(direnv hook zsh)"' >> "$HOME/.zshrc"

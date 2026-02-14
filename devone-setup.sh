@@ -867,6 +867,39 @@ else
     log "Slack already installed"
 fi
 
+# Telegram
+if ! is_installed telegram-desktop && ! is_apt_installed telegram-desktop; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Telegram"
+    else
+        if is_installed snap; then
+            sudo snap install telegram-desktop
+            log "Telegram installed (via snap)"
+        else
+            sudo apt install -y telegram-desktop 2>/dev/null || warn "Telegram install failed — install manually from desktop.telegram.org"
+            log "Telegram installed"
+        fi
+    fi
+else
+    log "Telegram already installed"
+fi
+
+# WhatsApp
+if ! is_installed whatsapp-for-linux && ! snap list whatsapp-for-linux &>/dev/null; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install WhatsApp"
+    else
+        if is_installed snap; then
+            sudo snap install whatsapp-for-linux
+            log "WhatsApp installed (via snap)"
+        else
+            warn "WhatsApp requires snap — install manually or run: sudo apt install snapd"
+        fi
+    fi
+else
+    log "WhatsApp already installed"
+fi
+
 # OpenVPN
 if ! is_installed openvpn; then
     run sudo apt install -y openvpn openvpn-systemd-resolved network-manager-openvpn network-manager-openvpn-gnome
