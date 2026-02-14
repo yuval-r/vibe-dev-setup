@@ -334,6 +334,14 @@ else
     log "WhatsApp already installed"
 fi
 
+# Wave Terminal
+if ! is_cask_installed wave && [[ ! -d "/Applications/Wave.app" ]]; then
+    run brew install --cask wave
+    log "Wave Terminal installed"
+else
+    log "Wave Terminal already installed"
+fi
+
 # direnv hook
 if [[ -f "$HOME/.zshrc" ]] && ! grep -q "direnv hook" "$HOME/.zshrc"; then
     echo 'eval "$(direnv hook zsh)"' >> "$HOME/.zshrc"

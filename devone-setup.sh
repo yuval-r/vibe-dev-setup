@@ -437,6 +437,25 @@ else
     log "Warp Terminal already installed"
 fi
 
+# Wave Terminal
+if ! is_installed waveterm && ! dpkg -l waveterm &>/dev/null; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Wave Terminal"
+    else
+        WAVE_VERSION=$(curl -s "https://api.github.com/repos/wavetermdev/waveterm/releases/latest" | jq -r '.tag_name' | sed 's/v//')
+        if [[ -n "$WAVE_VERSION" && "$WAVE_VERSION" != "null" ]]; then
+            wget -qO /tmp/waveterm.deb "https://github.com/wavetermdev/waveterm/releases/download/v${WAVE_VERSION}/waveterm-linux-amd64-${WAVE_VERSION}.deb"
+            sudo apt install -y /tmp/waveterm.deb 2>/dev/null || sudo apt --fix-broken install -y
+            rm -f /tmp/waveterm.deb
+            log "Wave Terminal installed"
+        else
+            warn "Could not fetch Wave Terminal — install manually from waveterm.dev"
+        fi
+    fi
+else
+    log "Wave Terminal already installed"
+fi
+
 # ══════════════════════════════════════════════════════════════════
 # 10. GOOGLE ANTIGRAVITY IDE
 # ══════════════════════════════════════════════════════════════════
