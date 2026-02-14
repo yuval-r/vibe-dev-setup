@@ -218,7 +218,9 @@ else
 fi
 
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Oh-My-Zsh"
+    else
         RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
         log "Oh-My-Zsh installed"
     fi
@@ -265,11 +267,13 @@ fi
 header "4/16 — Node.js"
 
 if ! is_installed node || [[ $(node -v 2>/dev/null | sed 's/v//' | cut -d. -f1) -lt 18 ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Node.js 22.x"
+    else
         curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
         sudo apt install -y nodejs
+        log "Node.js installed"
     fi
-    log "Node.js installed"
 else
     log "Node.js $(node -v) already installed"
 fi
@@ -293,7 +297,9 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 header "5/16 — Python (pyenv + pipx)"
 
 if ! is_installed pyenv; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install pyenv + Python 3.12"
+    else
         curl -fsSL https://pyenv.run | bash
         PYENV_INIT='
 # pyenv
@@ -332,7 +338,9 @@ fi
 
 # uv (fast Python package manager)
 if ! is_installed uv; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install uv"
+    else
         curl -LsSf https://astral.sh/uv/install.sh | sh
         log "uv installed"
     fi
@@ -346,7 +354,9 @@ fi
 header "6/16 — Rust (rustup)"
 
 if ! is_installed rustc; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Rust via rustup"
+    else
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
         source "$HOME/.cargo/env"
         log "Rust $(rustc --version | awk '{print $2}') installed"
@@ -368,7 +378,9 @@ done
 header "7/16 — Docker + Docker Compose"
 
 if ! is_installed docker; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Docker + Docker Compose"
+    else
         sudo install -m 0755 -d /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /etc/apt/keyrings/docker.gpg
         sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -390,7 +402,9 @@ fi
 header "8/16 — VS Code"
 
 if ! is_installed code; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install VS Code"
+    else
         wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/packages.microsoft.gpg > /dev/null
         echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
             sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
@@ -408,7 +422,9 @@ fi
 header "9/16 — Warp Terminal"
 
 if ! is_installed warp-terminal; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Warp Terminal"
+    else
         wget -qO- https://releases.warp.dev/linux/keys/warp.gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/warp-gpg-keyring.gpg > /dev/null
         echo "deb [arch=amd64 signed-by=/usr/share/keyrings/warp-gpg-keyring.gpg] https://releases.warp.dev/linux/deb stable main" | \
             sudo tee /etc/apt/sources.list.d/warp.list > /dev/null
@@ -426,7 +442,9 @@ fi
 header "10/16 — Google Antigravity IDE"
 
 if ! is_apt_installed antigravity; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Antigravity IDE"
+    else
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
             sudo gpg --batch --yes --dearmor -o /etc/apt/keyrings/antigravity-repo-key.gpg
@@ -465,7 +483,9 @@ else
 fi
 
 if ! is_installed ollama; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Ollama"
+    else
         curl -fsSL https://ollama.com/install.sh | sh
         log "Ollama installed"
     fi
@@ -539,7 +559,9 @@ fi
 
 # GitHub CLI
 if ! is_installed gh; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install GitHub CLI"
+    else
         curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg 2>/dev/null
         sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | \
@@ -554,7 +576,9 @@ fi
 
 # lazygit
 if ! is_installed lazygit; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install lazygit"
+    else
         LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | jq -r '.tag_name' | sed 's/v//')
         if [[ -n "$LAZYGIT_VERSION" && "$LAZYGIT_VERSION" != "null" ]]; then
             curl -Lo /tmp/lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -572,7 +596,9 @@ fi
 
 # lazydocker
 if ! is_installed lazydocker; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install lazydocker"
+    else
         LAZYDOCKER_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazydocker/releases/latest" | jq -r '.tag_name' | sed 's/v//')
         if [[ -n "$LAZYDOCKER_VERSION" && "$LAZYDOCKER_VERSION" != "null" ]]; then
             curl -Lo /tmp/lazydocker.tar.gz "https://github.com/jesseduffield/lazydocker/releases/latest/download/lazydocker_${LAZYDOCKER_VERSION}_Linux_x86_64.tar.gz"
@@ -599,7 +625,9 @@ header "13/16 — Remote Access Tools"
 
 # Tailscale
 if ! is_installed tailscale; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Tailscale"
+    else
         curl -fsSL https://tailscale.com/install.sh | sh
         log "Tailscale installed"
         info "Run 'sudo tailscale up' to connect"
@@ -612,7 +640,9 @@ if ! $SKIP_GUI_REMOTE; then
 
 # RustDesk
 if ! is_installed rustdesk; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install RustDesk"
+    else
         RUSTDESK_VERSION=$(curl -s "https://api.github.com/repos/rustdesk/rustdesk/releases/latest" | jq -r '.tag_name' | sed 's/v//')
         if [[ -n "$RUSTDESK_VERSION" && "$RUSTDESK_VERSION" != "null" ]]; then
             wget -qO /tmp/rustdesk.deb "https://github.com/rustdesk/rustdesk/releases/latest/download/rustdesk-${RUSTDESK_VERSION}-x86_64.deb"
@@ -629,7 +659,9 @@ fi
 
 # NoMachine
 if ! is_apt_installed nomachine && [[ ! -f /usr/NX/bin/nxplayer ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install NoMachine"
+    else
         NOMACHINE_URL="https://download.nomachine.com/download/8.16/Linux/nomachine_8.16.1_1_amd64.deb"
         wget -qO /tmp/nomachine.deb "$NOMACHINE_URL" 2>/dev/null
         if [[ -s /tmp/nomachine.deb ]]; then
@@ -648,7 +680,9 @@ fi # end !SKIP_GUI_REMOTE
 
 # SSH config
 if [[ ! -f "$HOME/.ssh/config" ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would create SSH config"
+    else
         mkdir -p "$HOME/.ssh"
         cat > "$HOME/.ssh/config" << 'EOF'
 # ─── Mac Studio via Tailscale ────────────────
@@ -686,7 +720,9 @@ if ! is_installed ufw; then
     run sudo apt install -y ufw
 fi
 
-if ! $DRY_RUN; then
+if $DRY_RUN; then
+    info "[dry-run] Would configure UFW firewall rules"
+else
     if ! sudo ufw status | grep -q "Status: active"; then
         sudo ufw default deny incoming
         sudo ufw default allow outgoing
@@ -714,7 +750,9 @@ header "15/16 — Power & Performance"
 # TLP
 if ! is_installed tlp; then
     run sudo apt install -y tlp tlp-rdw
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would enable TLP power management"
+    else
         sudo systemctl enable tlp
         sudo systemctl start tlp
         log "TLP power management installed"
@@ -726,7 +764,9 @@ fi
 # Sysctl tuning
 SYSCTL_CONF="/etc/sysctl.d/99-dev-tuning.conf"
 if [[ ! -f "$SYSCTL_CONF" ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would apply kernel tuning (sysctl) and tmpfs /tmp"
+    else
         sudo tee "$SYSCTL_CONF" > /dev/null << 'EOF'
 # Increase inotify watchers for IDEs
 fs.inotify.max_user_watches=524288
@@ -754,7 +794,9 @@ fi
 # User file limits
 LIMITS_CONF="/etc/security/limits.d/99-dev-limits.conf"
 if [[ ! -f "$LIMITS_CONF" ]]; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would increase user file limits"
+    else
         sudo tee "$LIMITS_CONF" > /dev/null << EOF
 $USER soft nofile 65536
 $USER hard nofile 65536
@@ -767,7 +809,9 @@ fi
 
 # Firmware updates
 if is_installed fwupdmgr; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would check for firmware updates"
+    else
         info "Checking firmware updates..."
         sudo fwupdmgr get-updates 2>/dev/null || true
         sudo fwupdmgr update -y 2>/dev/null || true
@@ -801,7 +845,9 @@ fi
 
 # Slack
 if ! is_installed slack && ! is_apt_installed slack-desktop; then
-    if ! $DRY_RUN; then
+    if $DRY_RUN; then
+        info "[dry-run] Would install Slack"
+    else
         wget -qO /tmp/slack.deb "https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb" 2>/dev/null
         if [[ -s /tmp/slack.deb ]]; then
             sudo apt install -y /tmp/slack.deb || sudo apt --fix-broken install -y
@@ -830,10 +876,14 @@ else
 fi
 
 # Disable Bluetooth auto-start
-if ! $DRY_RUN && [[ -f /etc/bluetooth/main.conf ]]; then
+if [[ -f /etc/bluetooth/main.conf ]]; then
     if ! grep -q "AutoEnable=false" /etc/bluetooth/main.conf; then
-        sudo sed -i 's/^#*AutoEnable.*/AutoEnable=false/' /etc/bluetooth/main.conf 2>/dev/null || true
-        log "Bluetooth auto-start disabled"
+        if $DRY_RUN; then
+            info "[dry-run] Would disable Bluetooth auto-start"
+        else
+            sudo sed -i 's/^#*AutoEnable.*/AutoEnable=false/' /etc/bluetooth/main.conf 2>/dev/null || true
+            log "Bluetooth auto-start disabled"
+        fi
     else
         log "Bluetooth auto-start already disabled"
     fi
@@ -846,7 +896,9 @@ fi # end !MINIMAL
 # ══════════════════════════════════════════════════════════════════
 header "16/16 — Cleanup"
 
-if ! $DRY_RUN; then
+if $DRY_RUN; then
+    info "[dry-run] Would run apt autoremove/autoclean"
+else
     sudo apt autoremove -y 2>/dev/null || true
     sudo apt autoclean 2>/dev/null || true
     log "Cleaned up"
