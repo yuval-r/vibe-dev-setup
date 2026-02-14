@@ -934,14 +934,30 @@ fi # end !MINIMAL
 # ══════════════════════════════════════════════════════════════════
 # 16. CLEANUP & SUMMARY
 # ══════════════════════════════════════════════════════════════════
-header "16/16 — Cleanup"
+header "16/16 — Update & Cleanup"
 
 if $DRY_RUN; then
-    info "[dry-run] Would run apt autoremove/autoclean"
+    info "[dry-run] Would update all packages and clean up"
 else
+    # Update system packages
+    sudo apt update -y 2>/dev/null || true
+    sudo apt upgrade -y 2>/dev/null || true
+
+    # Update npm globals (Claude Code, Gemini CLI)
+    npm update -g 2>/dev/null || true
+
+    # Update Rust toolchain
+    rustup update 2>/dev/null || true
+
+    # Update Ollama
+    if is_installed ollama; then
+        curl -fsSL https://ollama.com/install.sh | sh 2>/dev/null || true
+    fi
+
+    # Cleanup
     sudo apt autoremove -y 2>/dev/null || true
     sudo apt autoclean 2>/dev/null || true
-    log "Cleaned up"
+    log "All packages updated and cleaned up"
 fi
 
 echo ""

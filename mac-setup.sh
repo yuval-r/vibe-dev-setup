@@ -382,6 +382,21 @@ else
     log "SSH key already exists"
 fi
 
+# ══════════════════════════════════════════════════════════════════
+# 8. UPDATE ALL
+# ══════════════════════════════════════════════════════════════════
+header "8/8 — Update All Packages"
+
+if ! $DRY_RUN; then
+    brew upgrade 2>/dev/null || true
+    brew upgrade --cask --greedy 2>/dev/null || true
+    brew cleanup 2>/dev/null || true
+    npm update -g 2>/dev/null || true
+    log "All packages updated to latest"
+else
+    info "[dry-run] Would update all brew packages, casks, and npm globals"
+fi
+
 # Show Tailscale IP for reference
 if is_installed tailscale; then
     TS_IP=$(tailscale ip -4 2>/dev/null || echo "not connected")
