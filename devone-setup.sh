@@ -631,10 +631,18 @@ if ! is_installed tailscale; then
     else
         curl -fsSL https://tailscale.com/install.sh | sh
         log "Tailscale installed"
-        info "Run 'sudo tailscale up' to connect"
     fi
 else
     log "Tailscale already installed"
+fi
+
+# Enable Tailscale to start on boot and connect
+if ! $DRY_RUN && is_installed tailscale; then
+    sudo systemctl enable --now tailscaled 2>/dev/null || true
+    sudo tailscale up 2>/dev/null || true
+    log "Tailscale enabled on boot and connected"
+else
+    info "[dry-run] Would enable Tailscale on boot"
 fi
 
 if ! $SKIP_GUI_REMOTE; then
