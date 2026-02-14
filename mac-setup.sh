@@ -299,6 +299,7 @@ BREW_PACKAGES=(
     wget
     cmake
     openvpn
+    uv
 )
 
 MISSING_BREWS=()

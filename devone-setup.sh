@@ -330,6 +330,16 @@ else
     log "pipx already installed"
 fi
 
+# uv (fast Python package manager)
+if ! is_installed uv; then
+    if ! $DRY_RUN; then
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        log "uv installed"
+    fi
+else
+    log "uv already installed"
+fi
+
 # ══════════════════════════════════════════════════════════════════
 # 6. RUST (rustup)
 # ══════════════════════════════════════════════════════════════════
@@ -852,7 +862,7 @@ echo -e "${BOLD}🤖 AI & Vibe Coding:${NC}"
 echo "  Claude Code, Gemini CLI, Ollama, Antigravity IDE, Warp Terminal"
 echo ""
 echo -e "${BOLD}🛠  Languages & Tools:${NC}"
-echo "  Node.js, Python 3.12 (pyenv), Rust, Docker + Compose, VS Code"
+echo "  Node.js, Python 3.12 (pyenv + uv), Rust, Docker + Compose, VS Code"
 echo ""
 
 if ! $MINIMAL; then
