@@ -50,7 +50,7 @@ fi
 TMPDIR=$(mktemp -d)
 SCRIPT_PATH="${TMPDIR}/${SCRIPT_NAME}"
 
-curl -fsSL "$SCRIPT_URL" -o "$SCRIPT_PATH"
+curl -fsSL "$SCRIPT_URL?nocache=$(date +%s)" -o "$SCRIPT_PATH"
 
 if [[ ! -s "$SCRIPT_PATH" ]]; then
     echo -e "${RED}[✗]${NC} Download failed. Check your internet connection and repo URL."
