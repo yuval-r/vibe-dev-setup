@@ -323,7 +323,7 @@ else
 fi
 
 # Slack
-if ! is_cask_installed slack; then
+if ! is_cask_installed slack && [[ ! -d "/Applications/Slack.app" ]]; then
     run brew install --cask slack
     log "Slack installed"
 else
@@ -331,7 +331,7 @@ else
 fi
 
 # Telegram
-if ! is_cask_installed telegram; then
+if ! is_cask_installed telegram && [[ ! -d "/Applications/Telegram.app" ]]; then
     run brew install --cask telegram
     log "Telegram installed"
 else
@@ -339,7 +339,7 @@ else
 fi
 
 # WhatsApp
-if ! is_cask_installed whatsapp; then
+if ! is_cask_installed whatsapp && [[ ! -d "/Applications/WhatsApp.app" ]]; then
     run brew install --cask whatsapp
     log "WhatsApp installed"
 else
